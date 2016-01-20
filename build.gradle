@@ -1,0 +1,49 @@
+defaultTasks 'war'
+
+apply plugin: 'war'
+
+
+compileJava.destinationDir = file('build/classes')
+compileJava.source = 'src'
+
+//webAppDirName = 'WebContent' 
+
+
+configurations {
+   moreLibs
+}
+
+dependencies {
+	
+		compile fileTree(dir: 'WebContent/WEB-INF/lib', include: '*.jar')
+	}
+
+
+
+
+war {
+	
+	from ('build/classes'){
+			into('WEB-INF/classes')
+	} 
+	
+	from ('src'){
+			into('WEB-INF/classes')
+			exclude { details -> details.file.name.endsWith('.java')}
+	}
+	
+	from ('WebContent'){
+			exclude { details -> details.file.name.endsWith('.jar')}
+			exclude { details -> details.file.name.endsWith('.MF')}
+	}
+	
+	
+	
+	
+	
+    //include '**/*.properties'
+    //include '**/*.jsp'
+    //exclude { details -> details.file.name.endsWith('.html') &&
+    //                     details.file.text.contains('staging') }	
+    
+}

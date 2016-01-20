@@ -1,0 +1,72 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN" "http://hibernate.sourceforge.net/hibernate-mapping-3.0.dtd" >
+<hibernate-mapping>
+    <class name="com.roman.model.Person" table="person">
+      <id name="personID" type="int" column="PERSON_ID">
+     	<generator class="identity"/>    <!--  или class="assigned" или class="identity"!!!!! или class="native" -->
+      </id>
+      <property name="name" column="name" type="string"/>
+      <property name="country" column="country" type="string"/>
+      
+      <!-- <set name="coordinates" table="coordinates" 
+				inverse="true" lazy="false" fetch="join">
+            <key>
+                <column name="PERSON_ID" not-null="true" /> personid
+            </key>
+            <one-to-many class="com.roman.model.Coordinates" />
+      </set> -->
+   </class>
+   
+   <class name="com.roman.model.Coordinates" table="coordinates">
+   	  <id name="coordID" type="int" column="COORD_ID">
+     	 <generator class="identity"/>    <!--  или class="assigned" или class="identity"!!!!! или class="native" -->
+      </id>
+      <many-to-one name="person" class="com.roman.model.Person" fetch="join" lazy="false"> <!-- insert="false" update="false" -->
+            <column name="PERSON_ID" not-null="false" /> <!-- id -->
+      </many-to-one>
+      <property name="latitude" column="latitude" type="string"/>
+      <property name="longitude" column="longitude" type="string"/>
+   </class>
+</hibernate-mapping>
+
+
+
+
+
+
+<!-- 
+
+ CREATE TABLE `test`.`coordinates` (
+  `COORD_ID` INT NOT NULL AUTO_INCREMENT COMMENT '',
+  `latitude` VARCHAR(45) NOT NULL COMMENT '',
+  `longitude` VARCHAR(45) NOT NULL COMMENT '',
+  `PERSON_ID` INT NULL COMMENT '',
+  PRIMARY KEY (`COORD_ID`)  COMMENT '',
+  INDEX `personid_idx` (`PERSON_ID` ASC)  COMMENT '',
+  CONSTRAINT `person_fk`
+    FOREIGN KEY (`PERSON_ID`)
+    REFERENCES `test`.`person` (`PERSON_ID`)
+    ON DELETE NO ACTION
+    ON UPDATE NO ACTION);
+
+
+
+CREATE TABLE `test`.`contact` (
+  `CONTACT_ID` INT NOT NULL AUTO_INCREMENT COMMENT '',
+  `nickname` VARCHAR(45) NOT NULL COMMENT '',
+  `OWNER` INT NULL COMMENT '',
+  `FRIEND` INT NULL COMMENT '',
+  PRIMARY KEY (`CONTACT_ID`)  COMMENT '',
+  INDEX `OWNER_FK_idx` (`OWNER` ASC)  COMMENT '',
+  INDEX `FRIEND_FK_idx` (`FRIEND` ASC)  COMMENT '',
+  CONSTRAINT `OWNER_FK`
+    FOREIGN KEY (`OWNER`)
+    REFERENCES `test`.`person` (`PERSON_ID`)
+    ON DELETE NO ACTION
+    ON UPDATE NO ACTION,
+  CONSTRAINT `FRIEND_FK`
+    FOREIGN KEY (`FRIEND`)
+    REFERENCES `test`.`person` (`PERSON_ID`)
+    ON DELETE NO ACTION
+    ON UPDATE NO ACTION);
+ -->
