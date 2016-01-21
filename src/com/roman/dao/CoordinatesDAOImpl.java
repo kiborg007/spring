@@ -37,12 +37,12 @@ public class CoordinatesDAOImpl implements CoordinatesDAO {
 		/*
 		 * Coordinates coord = new Coordinates(); coord.setCoordID(id);
 		 */
-		Coordinates c = (Coordinates) session.load(Coordinates.class, new Integer(id));
-		Person pers = c.getPerson();
+		Coordinates c = (Coordinates) session.get(Coordinates.class, new Integer(id)); // there was "load" insted "get"
+		//Person pers = c.getPerson();
 		/*
 		 * if (c == null) { c = new Coordinates(); }
 		 */
-		logger.info("Coordinate loaded successfully, Coordinates details=");
+		logger.info("Coordinate loaded successfully, Coordinates details= "+c);
 		return c;
 	}
 
